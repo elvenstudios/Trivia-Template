@@ -1,20 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:trivia_template/models/game.dart';
 import 'package:trivia_template/models/question.dart';
 import 'package:trivia_template/widgets/option_section.dart';
 
-class QuestionCard extends StatelessWidget {
+class QuestionCard extends StatefulWidget {
+  @override
+  _QuestionCardState createState() => _QuestionCardState();
+}
+
+class _QuestionCardState extends State<QuestionCard> {
+  final Question question = Game().questions.first;
+
+  bool answered = false;
+  bool correct = false;
+
+  void _answerQuestion(String answer) {
+    setState(() {
+      answered = true;
+      correct = question.answer == answer;
+      question.correct = correct;
+      question.selectedOption = answer;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Question question = Question(
-      title: 'Mount Everest, the tallest mountain on Earth, is found in which mountain range?',
-      answer: 'The Alps',
-      wrongAnswers: [
-        'The Himalayas',
-        'The Appalachians',
-      ],
-    );
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
@@ -46,7 +57,7 @@ class QuestionCard extends StatelessWidget {
                 ],
               ),
             ),
-            OptionSection(question),
+            OptionSection(question, answered, correct, _answerQuestion),
           ],
         ),
       ),

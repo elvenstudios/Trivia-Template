@@ -1,12 +1,22 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:trivia_template/models/question.dart';
 
 class TriviaOption extends StatefulWidget {
-  TriviaOption(this.text, this.option);
+  TriviaOption(
+    this.text,
+    this.option,
+    this.answered,
+    this.correct,
+    this.answerQuestion,
+    this.question,
+  );
   final String text;
   final int option;
+  final bool answered;
+  final bool correct;
+  final Function answerQuestion;
+  final Question question;
 
   @override
   _TriviaOptionState createState() => _TriviaOptionState();
@@ -49,26 +59,22 @@ class _TriviaOptionState extends State<TriviaOption> {
     }
   }
 
-  bool answered = false;
-  bool correct = false;
-
   @override
   Widget build(BuildContext context) {
     Color borderColor = Theme.of(context).colorScheme.secondaryVariant;
 
     // if the question has been answered
     // change the color accordingly
-    if (answered) {
-      borderColor = correct ? Colors.greenAccent : Colors.pinkAccent;
+    if (widget.answered && widget.question.selectedOption == widget.text) {
+      borderColor = widget.correct ? Colors.greenAccent : Colors.pinkAccent;
     }
 
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          answered = true;
-          correct = Random().nextBool();
-        });
-      },
+      onTap: widget.question.selectedOption == null
+          ? () {
+              widget.answerQuestion(widget.text);
+            }
+          : null,
       child: Container(
         margin: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
         padding: EdgeInsets.all(8),

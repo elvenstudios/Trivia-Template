@@ -7,10 +7,14 @@ class Question {
   String title;
   String answer;
   List<String> wrongAnswers;
+  bool correct;
+  String selectedOption;
+
+  List<String> _options;
 
   // returns all options in a random order
   List<String> get options {
-    return _shuffle([answer, ...wrongAnswers]);
+    return _options ??= _shuffle([answer, ...wrongAnswers]);
   }
 
   // shuffles the list so the options aren't in the same order every time
