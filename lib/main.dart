@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:trivia_template/screens/home.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:trivia_template/screens/question_card.dart';
 
-void main() {
+Future<void> main() async {
+  await DotEnv().load('lib/assets/.env');
   runApp(MyApp());
 }
 
@@ -11,22 +13,23 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        colorScheme: ColorScheme(
+          primary: Colors.purple,
+          primaryVariant: Colors.purpleAccent,
+          secondary: Colors.blue,
+          secondaryVariant: Colors.blueAccent,
+          surface: Colors.white,
+          error: Colors.red,
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          onSurface: Colors.black,
+          onBackground: Colors.white,
+          onError: Colors.white,
+          brightness: Brightness.dark,
+          background: Color.fromRGBO(6, 6, 25, 1),
+        ),
       ),
-      home: Home(),
+      home: QuestionCard(),
     );
   }
 }
